@@ -1,4 +1,4 @@
-import discord, os, glob
+import discord, os, glob, random
 from discord.ext import commands
 
 from PIL import Image, ImageFont, ImageDraw
@@ -36,6 +36,7 @@ class DebugBoard:
       for j in range(0,3):
         dr.rectangle([(0+j*99,0+i*99),(99+j*99,99+i*99)], fill="#36393F", outline="black")
     im.save(f"ttt/{id}.png")
+    open(f"ttt/{id}.info", "w").write("{"+f"'font': '{random.choice(['pixelfont.ttf', 'typewriterfont.ttf'])}', '1': '0', '2': '0', '3': '0', '4': '0', '5': '0', '6': '0', '7': '0', '8': '0' '9': '0'"+"}")
     await ctx.send(f"Generated a blank board into `{id}.png`", file=discord.File(fp=f"{os.getcwd()}\\ttt\\{id}.png"))
 
   @commands.command(name="viewboard")
@@ -64,7 +65,7 @@ class DebugBoard:
     else:
       base = Image.open(f"ttt/{id}.png").convert('RGBA')
       d = ImageDraw.Draw(base)
-      fnt = ImageFont.truetype('font.ttf', 72)
+      fnt = ImageFont.truetype('pixelfont.ttf', 72)
       corr = eval(open("keypad-correlation", "r").readlines()[0])
       d.text(corr[f"{letter.lower()}{str(pos)}"], letter, font=fnt, fill=(255,255,255,255))
       base.save(f"ttt/{id}.png")
