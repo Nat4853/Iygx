@@ -10,6 +10,19 @@ class DebugBoard:
   def __init__(self, bot):
     self.bot = bot
 
+  @commands.command(name="tttcommands")
+  @commands.is_owner()
+  async def comms(self, ctx):
+    s = "          "
+    embed = discord.Embed(colour=0xf3ebfb, description=
+        f"__**TTT Admin Command Menu.**__\n\n\
+         **,generate [ID]**{s}The generate command allows creation of a new board. It will be as if a game was started but the board will remain blank and no game will be running.\n\
+         **,viewboard [ID]**{s}This allows you to view any board just be having its ID. This doesn't affect the board at all, and only sends the board itself.\n\
+         **,listboards**{s}This will return the list of current board files that exist.\n\
+         **,insert [ID] [POSITION] [LETTER]**{s}This inserts the chosen letter into the chosen position on the chosen board.\n\
+         **,deleteboard [ID]**{s}This deletes the board using its ID. It deletes the PNG and all files affiliated with the board.")
+    await ctx.send(embed=embed)
+
   @commands.command(name="generate")
   @commands.is_owner()
   async def gen(self, ctx, id: str = None):
