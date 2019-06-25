@@ -1,4 +1,4 @@
-import discord
+import discord, subprocess
 from discord.ext import commands
 
 class MagicalPowers:
