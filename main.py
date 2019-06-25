@@ -5,7 +5,8 @@ bot = commands.Bot(command_prefix=",", case_insensitive=True)
 bot.remove_command("help") # Removing default discord.py help command to make a better one hehe
 
 initial = ['commands.help',
-           'commands.magicalpowers']
+           'commands.magicalpowers',
+           'commands.debugtttboard']
 
 if __name__ == '__main__':
   for extension in initial:
