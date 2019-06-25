@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
 @bot.event
 async def on_ready():
-    print(f'Authentication Success.\nReady for interaction.')
+    print(f'Authenticated as {bot.user.name}({bot.user.id})')
 
 # Load token from file named "token".
 token = open("token", "r").readlines()[0]
