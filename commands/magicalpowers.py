@@ -59,5 +59,12 @@ class MagicalPowers:
 
     # End of Loading / Unloading.
 
+    # Command to pull from git repository
+    @commands.command(name="gitpull")
+    @commands.is_owner()
+    async def pull(self, ctx):
+        process = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE)
+        output = process.communicate()[0]
+
 def setup(bot):
     bot.add_cog(MagicalPowers(bot))
