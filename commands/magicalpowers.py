@@ -20,7 +20,7 @@ class MagicalPowers:
         embed = discord.Embed(colour=0xf1524f).add_field(name="Wait a second..", value=f"Could not load file due to `{type(exc).__name__}`:\n`{exc}`")
         await ctx.send(embed=embed)
       else:
-        embed = discord.Embed(colour=0x66b864).add_field(name="Done. :)", value="The specified file was loaded successfully.")
+        embed = discord.Embed(colour=0x66b864).add_field(name="Done.", value="The specified file was loaded successfully.")
         await ctx.send(embed=embed)
 
   @commands.command(name="unload")
@@ -36,7 +36,7 @@ class MagicalPowers:
         embed = discord.Embed(colour=0xf1524f).add_field(name="Wait a second..", value=f"Could not unload file due to `{type(exc).__name__}`:\n`{exc}`")
         await ctx.send(embed=embed)
       else:
-        embed = discord.Embed(colour=0x66b864).add_field(name="Done. :)", value="The specified file was unloaded successfully.")
+        embed = discord.Embed(colour=0x66b864).add_field(name="Done.", value="The specified file was unloaded successfully.")
         await ctx.send(embed=embed)
 
   @commands.command(name="reload")
