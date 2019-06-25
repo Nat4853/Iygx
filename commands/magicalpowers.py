@@ -79,6 +79,8 @@ class MagicalPowers:
         elif command.lower() == "reset": # Reset all local changes in favour for online stuff.
             repo = git.Repo('.')
             repo.git.reset('--hard') # Hard by default since only state it would be practically used in.
+            embed = discord.Embed(colour=0x66b864).add_field(name="Done.", value="Successfully pulled most recent from git origin.")
+            await ctx.send(embed=embed)
         else:
             embed = discord.Embed(colour=0xf1524f).add_field(name="Wait a second..", value="Huh? What you specified isn't a valid option for this command. Try again?")
             await ctx.send(embed=embed)
