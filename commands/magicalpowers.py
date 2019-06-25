@@ -1,4 +1,4 @@
-import discord, subprocess
+import discord, git
 from discord.ext import commands
 
 class MagicalPowers:
@@ -63,8 +63,8 @@ class MagicalPowers:
     @commands.command(name="gitpull")
     @commands.is_owner()
     async def pull(self, ctx):
-        process = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE)
-        output = process.communicate()[0]
+        repo = git.Repo('.')
+        repo.remotes.origin.pull()
 
 def setup(bot):
     bot.add_cog(MagicalPowers(bot))
