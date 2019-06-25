@@ -125,3 +125,6 @@ dmypy.json
 
 # Token safety
 token
+
+# Board Upload Prevention
+*.png
