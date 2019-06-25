@@ -1,4 +1,4 @@
-import discord, traceback
+import discord, traceback, sys
 from discord.ext import commands
 
 bot = commands.Bot(command_prefix=",", case_insensitive=True)
@@ -8,16 +8,16 @@ initial = ['commands.help',
            'commands.magicalpowers']
 
 if __name__ == '__main__':
-    for extension in initial:
-        try:
-            bot.load_extension(extension)
-        except Exception as e:
-            print(f'Failed to load extension {extension}.', file=sys.stderr)
-            traceback.print_exc()
+  for extension in initial:
+    try:
+      bot.load_extension(extension)
+    except Exception as e:
+      print(f'Failed to load extension {extension}.', file=sys.stderr)
+      traceback.print_exc()
 
 @bot.event
 async def on_ready():
-    print(f'Authenticated as {bot.user.name}({bot.user.id})')
+  print(f'Authenticated as {bot.user.name}({bot.user.id})')
 
 # Load token from file named "token".
 token = open("token", "r").readlines()[0]
