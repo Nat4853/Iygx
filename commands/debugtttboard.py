@@ -56,6 +56,14 @@ class DebugBoard:
       d.text(corr[f"{letter.lower()}{str(pos)}"], letter, font=fnt, fill=(255,255,255,255))
       base.save(f"ttt/{id}.png")
       
+  @commands.command(name="deleteboard")
+  @commands.is_owner()
+  async def delb(self, ctx, id: str = None):
+    if not id:
+      embed = discord.Embed(colour=0xf1524f).add_field(name="Wait a second..", value="You must enter an `ID` after the command to know where to store the board.")
+      await ctx.send(embed=embed)
+    else:
+      os.remove(f"ttt/{id}.png")
 
 def setup(bot):
   bot.add_cog(DebugBoard(bot))
