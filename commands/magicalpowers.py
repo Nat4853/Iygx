@@ -53,18 +53,25 @@ class MagicalPowers:
                 embed = discord.Embed(colour=0xf1524f).add_field(name="Wait a second..", value=f"Could not reload file due to `{type(exc).__name__}`:\n`{exc}`")
                 await ctx.send(embed=embed)
             else:
-                embed = discord.Embed(colour=0x66b864).add_field(name="Done. :)", value="The specified file was reloaded successfully.")
+                embed = discord.Embed(colour=0x66b864).add_field(name="Done.", value="The specified file was reloaded successfully.")
                 await ctx.send(embed=embed)
 
 
     # End of Loading / Unloading.
 
-    # Command to pull from git repository
+    # Command to pull from git repository to allow remote updating and on the fly troubleshooting.
     @commands.command(name="gitpull")
     @commands.is_owner()
     async def pull(self, ctx):
         repo = git.Repo('.')
+        current = repo.head.commit
         repo.remotes.origin.pull()
+        if current != repo.head.commit:
+            embed = discord.Embed(colour=0x66b864).add_field(name="Done.", value="Successfully pulled most recent from git origin.")
+            await ctx.send(embed=embed)
+        else:
+            embed = discord.Embed(colour=0xf1524f).add_field(name="Wait a second..", value="No changes were detected in origin. No files were changed.")
+            await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(MagicalPowers(bot))
