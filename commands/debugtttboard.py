@@ -36,7 +36,7 @@ class DebugBoard:
       for j in range(0,3):
         dr.rectangle([(0+j*99,0+i*99),(99+j*99,99+i*99)], fill="#36393F", outline="black")
     im.save(f"ttt/{id}.png")
-    open(f"ttt/{id}.info", "w").write("{"+f"'font': '{random.choice(['pixelfont.ttf', 'typewriterfont.ttf'])}', '1': '0', '2': '0', '3': '0', '4': '0', '5': '0', '6': '0', '7': '0', '8': '0', '9': '0'"+"}")
+    open(f"ttt/{id}.info", "w").write("{"+f"'font': '{random.choice(['brushfont.ttf', 'typewriterfont.ttf'])}', '1': '0', '2': '0', '3': '0', '4': '0', '5': '0', '6': '0', '7': '0', '8': '0', '9': '0'"+"}")
     await ctx.send(f"Generated a blank board into `{id}.png`", file=discord.File(fp=f"{os.getcwd()}\\ttt\\{id}.png"))
 
   @commands.command(name="viewboard")
@@ -69,11 +69,9 @@ class DebugBoard:
       base = Image.open(f"ttt/{id}.png").convert('RGBA')
       d = ImageDraw.Draw(base)
       fnt = ImageFont.truetype("fonts/"+info['font'], 72)
-      try:
-        open(f"ttt/{id}.info", "w").write(str(info).replace(f"'{str(pos)}': '0'", f"'{str(pos)}': '{letter}'"))
-      except Exception as e:
-        await ctx.send("Already letter there?")
-        return
+      if not info[str(pos)] == '0':
+        await ctx.send("Already a letter there.")
+      open(f"ttt/{id}.info", "w").write(str(info).replace(f"'{str(pos)}': '0'", f"'{str(pos)}': '{letter}'"))
       d.text(corr[f"{letter.lower()}{str(pos)}"], letter, font=fnt, fill=(255,255,255,255))
       base.save(f"ttt/{id}.png")
       
