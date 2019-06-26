@@ -83,6 +83,7 @@ class DebugBoard:
       await ctx.send(embed=embed)
     else:
       os.remove(f"ttt/{id}.png")
+      os.remove(f"ttt/{id}.info")
 
 def setup(bot):
   bot.add_cog(DebugBoard(bot))
