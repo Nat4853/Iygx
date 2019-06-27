@@ -36,7 +36,6 @@ class DebugBoard:
       for j in range(0,3):
         dr.rectangle([(0+j*99,0+i*99),(99+j*99,99+i*99)], fill="#36393F", outline="black")
     im.save(f"ttt/{id}.png")
-    open(f"ttt/{id}.info", "w").write("{"+f"'font': '{random.choice(['brushfont.ttf', 'typewriterfont.ttf'])}', '1': '0', '2': '0', '3': '0', '4': '0', '5': '0', '6': '0', '7': '0', '8': '0', '9': '0'"+"}")
     await ctx.send(f"Generated a blank board into `{id}.png`", file=discord.File(fp=f"{os.getcwd()}\\ttt\\{id}.png"))
 
   @commands.command(name="viewboard")
@@ -46,8 +45,7 @@ class DebugBoard:
       embed = discord.Embed(colour=0xf1524f).add_field(name="Wait a second..", value="You must enter an `ID` after the command to know where to store the board.")
       await ctx.send(embed=embed)
       return
-    info = open(f"ttt/{id}.info", "r").readlines()[0]
-    await ctx.send(f"Sending `{id}.png`..\n```{info}```", file=discord.File(fp=f"{os.getcwd()}\\ttt\\{id}.png"))
+    await ctx.send(f"Sending `{id}.png`..", file=discord.File(fp=f"{os.getcwd()}\\ttt\\{id}.png"))
 
   @commands.command(name="listboards")
   @commands.is_owner()
@@ -64,26 +62,16 @@ class DebugBoard:
       embed = discord.Embed(colour=0xf1524f).add_field(name="Wait a second..", value="You have failed to insert one of the necessary fields. The available fields are as follows: `ID`, `POS`, `LETTER`.")
       await ctx.send(embed=embed)
     else:
-      info = eval(open(f"ttt/{id}.info").readlines()[0])
-      corr = eval(open("keypad-correlation", "r").readlines()[0])
-      base = Image.open(f"ttt/{id}.png").convert('RGBA')
-      d = ImageDraw.Draw(base)
-      fnt = ImageFont.truetype("fonts/"+info['font'], 72)
-      if not info[str(pos)] == '0':
-        await ctx.send("Already a letter there.")
-      open(f"ttt/{id}.info", "w").write(str(info).replace(f"'{str(pos)}': '0'", f"'{str(pos)}': '{letter}'"))
-      d.text(corr[f"{letter.lower()}{str(pos)}"], letter, font=fnt, fill=(255,255,255,255))
-      base.save(f"ttt/{id}.png")
+      
       
   @commands.command(name="deleteboard")
   @commands.is_owner()
   async def delb(self, ctx, id: str = None):
-    if not id:
+    if not id: 
       embed = discord.Embed(colour=0xf1524f).add_field(name="Wait a second..", value="You must enter an `ID` after the command to know where to store the board.")
       await ctx.send(embed=embed)
     else:
       os.remove(f"ttt/{id}.png")
-      os.remove(f"ttt/{id}.info")
 
 def setup(bot):
   bot.add_cog(DebugBoard(bot))
