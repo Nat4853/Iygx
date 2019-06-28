@@ -52,7 +52,7 @@ class DebugBoard:
   async def list(self, ctx):
     out = ""
     for item in glob.glob('ttt/*.png'):
-      out += f"{item[4:-4]}\n"
+      out += f"\n{item[4:-4]}"
     await ctx.send(f"These are all the currently accessable boards:\n```{out}```") 
 
   @commands.command(name="insert")
@@ -62,7 +62,20 @@ class DebugBoard:
       embed = discord.Embed(colour=0xf1524f).add_field(name="Wait a second..", value="You have failed to insert one of the necessary fields. The available fields are as follows: `ID`, `POS`, `LETTER`.")
       await ctx.send(embed=embed)
     else:
-      
+      correlation = {'7': '[0,0]', '8': '[1,0]', '9': '[2,0]', '4': '[0,1]', '5': '[1,1]', '6': '[2,1]', '1': '[0,2]', '2': '[1,2]', '3': '[2,2]'}
+      im = Image.open(f'ttt/{id}.png').convert('RGBA')
+      fnt = ImageFont.truetype('fonts/brushfont.ttf', 52)
+      d = ImageDraw.Draw(im)
+      x = 18
+      if letter.lower() == "x":
+        y = 16
+      else:
+        y = 13
+      hor = eval(correlation[str(pos)])[0]
+      ver = eval(correlation[str(pos)])[1]
+      d.text((x+hor*99,y+ver*99), letter, font=fnt, fill=(255,255,255,255))
+      im.save(f"ttt/{id}.png")
+      await ctx.send(f"Sending `{id}.png`..", file=discord.File(fp=f"{os.getcwd()}\\ttt\\{id}.png"))
       
   @commands.command(name="deleteboard")
   @commands.is_owner()
