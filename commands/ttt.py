@@ -4,14 +4,14 @@ from PIL import Image, ImageFont, ImageDraw
 from drawboard import draw_board
 
 luckynumbers = [
-       (1, 2, 3),
-       (4, 5, 6),
-       (7, 8, 9),
-       (1, 4, 7),
-       (2, 5, 8),
-       (3, 6, 9),
-       (1, 5, 9),
-       (3, 5, 7),
+       ("1", "2", "3"),
+       ("4", "5", "6"),
+       ("7", "8", "9"),
+       ("1", "4", "7"),
+       ("2", "5", "8"),
+       ("3", "6", "9"),
+       ("1", "5", "9"),
+       ("3", "5", "7"),
     ]
 
 class TicTacToe:
@@ -46,8 +46,8 @@ class TicTacToe:
       global players
       players = [ctx.message.author.id, msg.mentions[0].id]
     async def game(self, ctx):
-      options = ["X", "O"]
-      board = {'7': '0', '8': '0', '9': '0', '4': '0', '5': '0', '6': '0', '1': '0', '2': '0', '3': '0', }
+      options = ["x", "o"]
+      board = {'7': '7', '8': '8', '9': '9', '4': '4', '5': '5', '6': '6', '1': '1', '2': '2', '3': '3'}
       turn = 0
       while True:
         current = players[turn % 2]
@@ -56,8 +56,8 @@ class TicTacToe:
         await ctx.send(embed=embed)
         def gamecheck(msg):
           if msg.author.id == current:
-            if msg.content in ['1','2','3','4','5','6','7','8','9']:
-              if board[msg.content] == "0":
+            if msg.content in ['1','2','3','4','5','6','7','8','9'] and len(msg.content) == 1:
+              if board[msg.content] == msg.content:
                 return True
           return False
         try:
@@ -70,6 +70,13 @@ class TicTacToe:
         board[msg.content] = letter
         draw_board(board)
         await ctx.send(embed=embed, file=discord.File(fp="temp.png"))
+
+        for a, b, c in luckynumbers:
+          if board[a] == board[b] == board[c]:
+            embed = discord.Embed(colour=0x0fe295).add_field(name="Winner!", value=f"<@{current}> has won the game! :tada:")
+            await ctx.send(embed=embed)
+            return
+
         turn += 1
       else:
         embed = discord.Embed(colour=0xf1524f).add_field(name="Sure.", value=f"Denied the Tic Tac Toe request from {ctx.message.author.mention}.")

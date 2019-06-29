@@ -9,17 +9,13 @@ def draw_board(board):
   draw = ImageDraw.Draw(image)
   fnt = ImageFont.truetype('fonts/brushfont.ttf', 52)
 
-  for pos in board: # Cycle through keys.
-    if not board[pos] == "0":
+  for pos in board: # Cycle through keys.:
+    if board[pos] == "x" or board[pos] == "o":
       if board[pos] == "x":
         y = 16 # Different constants since different sized letters within font.
-      else:
+      elif board[pos] == "o":
         y = 13
       hor = eval(correlation[str(pos)])[0]
       ver = eval(correlation[str(pos)])[1]
       draw.text(((x+hor*99),(y+ver*99)), board[pos].upper(), font=fnt, fill=(255,255,255,255))
   image.save("temp.png")
-
-if __name__ == "__main__":
-  board = {'7': 'X', '8': 'X', '9': 'X', '4': 'X', '5': 'X', '6': 'X', '1': 'X', '2': 'X', '3': 'O'}
-  draw_board(board)

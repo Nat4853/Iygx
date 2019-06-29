@@ -12,7 +12,8 @@ class Help:
     embed = discord.Embed(colour=0xf3ebfb, description=
         f"__**Iygx Help and Commands Menu.**__\n\n\
          **,help** / **,commands**{s}Both aliases of this command open this menu.\n\
-         **,ttt**{s}This command begins a classic game of Tic Tac Toe. You can ~~choose to either~~ play with ~~an AI or~~ another member of this server.")
+         **,ttt**{s}This command begins a classic game of Tic Tac Toe. You will need another server member to be able to play.\n\n\
+         __Sorry about the lack of games. I put all my time into Tic Tac Toe to ensure it worked well, and I ran out of time faster than I'd expected.__ <3")
     await ctx.send(embed=embed)
 
 def setup(bot):
