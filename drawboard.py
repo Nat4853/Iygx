@@ -17,8 +17,7 @@ def draw_board(board):
         y = 13
       hor = eval(correlation[str(pos)])[0]
       ver = eval(correlation[str(pos)])[1]
-      print(f"({x+hor*99}),({y+ver*99})")
-      draw.text(((x+hor*99),(y+ver*99)), str(board[pos]), font=fnt, fill=(255,255,255,255))
+      draw.text(((x+hor*99),(y+ver*99)), board[pos].upper(), font=fnt, fill=(255,255,255,255))
   image.save("temp.png")
 
 if __name__ == "__main__":
