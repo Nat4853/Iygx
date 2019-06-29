@@ -18,12 +18,6 @@ class TicTacToe:
   def __init__(self, bot):
     self.bot = bot
 
-  @commands.command(name="testdraw")
-  async def td(self, ctx):
-    board = {'7': '0', '8': 'x', '9': '0', '4': 'x', '5': '0', '6': '0', '1': 'o', '2': '0', '3': 'o'}
-    draw_board(board)
-    await ctx.send(file=discord.File(fp="temp.png"))
-
   @commands.command(name="tictactoe", aliases=["ttt"])
   async def ttt(self, ctx):
     embed = discord.Embed(colour=0x0fe295).add_field(name="Tic Tac Toe.", value="Welcome to Tic Tac Toe! To play, mention a member that you wish to challenge within the next minute.")
@@ -48,35 +42,40 @@ class TicTacToe:
       await ctx.send(embed=embed)
     if consent.content.lower().startswith("yes"):
       embed = discord.Embed(colour=0x0fe295).add_field(name="Get Ready.", value="The game is now starting.")
-      await ctx.send(embed=embed, file=discord.File(fp=f"{os.getcwd()}\\ttt\\{id}.png"))
-
-    players = [ctx.message.author.id, msg.mentions[0].id]
-    options = ["X", "O"]
-    turn = 0
-    while True:
-      current = players[(turn % 2) + 1]
-      letter = options[(turn % 2) + 1]
-      embed = discord.Embed(colour=0x0fe295).add_field(name="Turn.", value=f"It is <@{current}>'s turn. Choose a number on a keypad that corresponds to a grid space to play an `{letter}`.")
-      await ctx.send(embed=embed)
-      def gamecheck(msg):
-        if msg.author.id == current:
-          if msg.content in ['1','2','3','4','5','6','7','8','9']:
-            return True
-        return False
-      try:
-        msg = await self.bot.wait_for('message', check=gamecheck, timeout=300.0)
-      except Exception as e:
-        embed = discord.Embed(colour=0xf1524f).add_field(name="Timeout.", value="Your prompt has timed out. If you want to retry, run the original command again.")
+      await ctx.send(embed=embed, file=discord.File(fp="base.png"))
+      global players
+      players = [ctx.message.author.id, msg.mentions[0].id]
+    async def game(self, ctx):
+      options = ["X", "O"]
+      board = {'7': '0', '8': '0', '9': '0', '4': '0', '5': '0', '6': '0', '1': '0', '2': '0', '3': '0', }
+      turn = 0
+      while True:
+        current = players[turn % 2]
+        letter = options[turn % 2]
+        embed = discord.Embed(colour=0x0fe295).add_field(name="Turn.", value=f"It is <@{current}>'s turn. Choose a number on a keypad that corresponds to a grid space to play an `{letter}`.")
+        await ctx.send(embed=embed)
+        def gamecheck(msg):
+          if msg.author.id == current:
+            if msg.content in ['1','2','3','4','5','6','7','8','9']:
+              if board[msg.content] == "0":
+                return True
+          return False
+        try:
+          msg = await self.bot.wait_for('message', check=gamecheck, timeout=300.0)
+        except Exception as e:
+          embed = discord.Embed(colour=0xf1524f).add_field(name="Timeout.", value="Your prompt has timed out. If you want to retry, run the original command again.")
+          await ctx.send(embed=embed)
+          return
+        embed = discord.Embed(colour=0x0fe295).add_field(name="Nice Move.", value="Your move has been recorded.")
+        board[msg.content] = letter
+        draw_board(board)
+        await ctx.send(embed=embed, file=discord.File(fp="temp.png"))
+        turn += 1
+      else:
+        embed = discord.Embed(colour=0xf1524f).add_field(name="Sure.", value=f"Denied the Tic Tac Toe request from {ctx.message.author.mention}.")
         await ctx.send(embed=embed)
         return
-        # Resume from here.
-
-      turn += 1
-
-    else:
-      embed = discord.Embed(colour=0xf1524f).add_field(name="Sure.", value=f"Denied the Tic Tac Toe request from {ctx.message.author.mention}.")
-      await ctx.send(embed=embed)
-      return
+    self.bot.loop.create_task(game(self, ctx))
 
 def setup(bot):
   bot.add_cog(TicTacToe(bot))
