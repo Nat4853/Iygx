@@ -6,7 +6,7 @@ from PIL import Image, ImageFont, ImageDraw
 onumber = 24 # These are constant pixel alignments to allow the Os and Xs to perfectly be aligned in their grid space.
 xnumber = 27
 
-class DebugBoard:
+class DebugBoard(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 

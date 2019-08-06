@@ -1,7 +1,7 @@
 import discord, git
 from discord.ext import commands
 
-class MagicalPowers:
+class MagicalPowers(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
