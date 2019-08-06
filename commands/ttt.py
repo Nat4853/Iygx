@@ -14,7 +14,7 @@ luckynumbers = [
        ("3", "5", "7"),
     ]
 
-class TicTacToe:
+class TicTacToe(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
@@ -76,7 +76,16 @@ class TicTacToe:
             embed = discord.Embed(colour=0x0fe295).add_field(name="Winner!", value=f"<@{current}> has won the game! :tada:")
             await ctx.send(embed=embed)
             return
-
+        for space in board:
+          try:
+            int(space)
+            foundnumber = True
+          except:
+            pass
+          if not foundnumber:
+            embed = discord.Embed(colour=0x0fe295).add_field(name="Stalemate..", value=f"No-one wins.. how sad.")
+            await ctx.send(embed=embed)
+            return
         turn += 1
       else:
         embed = discord.Embed(colour=0xf1524f).add_field(name="Sure.", value=f"Denied the Tic Tac Toe request from {ctx.message.author.mention}.")
