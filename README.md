@@ -1,8 +1,6 @@
 # Iygx
 
-This bot has been created to fit under the "Entertainment" category within the Discord Hack Week bot creation event.
-
-The bot can play games whilst visualising them in image attachments. However, due to bad time handling, there is only one game, being Tic Tac Toe. I slightly ran out of time due to there not being enough time in my plans to work on the project.
+This bot was created as part of Discord's Hack Week event.
 
 The prefix for this bot is ",".
 
